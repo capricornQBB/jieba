@@ -55,16 +55,39 @@ def setLogLevel(log_level):
 
 class Tokenizer(object):
 
-    def __init__(self, dictionary=DEFAULT_DICT):
+    # def __init__(self, dictionary=DEFAULT_DICT):
+    #     self.lock = threading.RLock()
+    #     if dictionary == DEFAULT_DICT:
+    #         self.dictionary = dictionary
+    #     else:
+    #         self.dictionary = _get_abs_path(dictionary)
+    #     self.FREQ = {}
+    #     self.total = 0
+    #     self.user_word_tag_tab = {}
+    #     self.initialized = False
+    #     self.tmp_dir = None
+    #     self.cache_file = None
+
+    def __init__(self, dictionary=DEFAULT_DICT, FREQ=None, total=None):
         self.lock = threading.RLock()
         if dictionary == DEFAULT_DICT:
             self.dictionary = dictionary
         else:
             self.dictionary = _get_abs_path(dictionary)
-        self.FREQ = {}
-        self.total = 0
+        if FREQ is None:
+            self.FREQ = {}
+        else:
+            self.FREQ = FREQ
+        if total is None:
+            self.total = 0
+        else:
+            self.total = total
         self.user_word_tag_tab = {}
-        self.initialized = False
+        if FREQ is not None and FREQ is not None:
+            self.initialized = True
+        else:
+            self.initialized = False
+        # self.tmp_dir = '/data/jieba_cache'
         self.tmp_dir = None
         self.cache_file = None
 
